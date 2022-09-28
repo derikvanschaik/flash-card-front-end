@@ -22,9 +22,11 @@ function App() {
     setFlashCards([...flashCards, {answer: 'Click Edit to change answer.', question: 'click edit to change question.'}])
   }
   const handleDelete = (idx) =>{
-    const newFlashCards = flashCards.filter((_, i) => i !== idx);
-    setFlashCards(newFlashCards);
-    setCurCardIdx( newFlashCards.length === 0? -1 :(curCardIdx) % newFlashCards.length);
+    if(window.confirm("Are you sure you want to delete this card? This action is not reversible.") === true){
+      const newFlashCards = flashCards.filter((_, i) => i !== idx);
+      setFlashCards(newFlashCards);
+      setCurCardIdx( newFlashCards.length === 0? -1 :(curCardIdx) % newFlashCards.length);
+    }
   }
   const handleNextCard = () =>{
     handleNavigateCard(1);
