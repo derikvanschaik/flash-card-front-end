@@ -1,6 +1,8 @@
 import {Button, Container} from 'react-bootstrap';
 import {useState} from 'react';
 import FlipCard from './components/FlashCard/FlipCard';
+import {mod} from './utils/utils';
+
 import './App.css';
 
 function App() {
@@ -24,8 +26,14 @@ function App() {
     setCurCardIdx( newFlashCards.length === 0? -1 :(curCardIdx) % newFlashCards.length);
   }
   const handleNextCard = () =>{
+    handleNavigateCard(1);
+  }
+  const handlePreviousCard = () =>{
+    handleNavigateCard(-1);
+  }
+  const handleNavigateCard = (val) =>{
     setIsEditing(false);
-    setCurCardIdx( (curCardIdx + 1) % flashCards.length);
+    setCurCardIdx( mod(curCardIdx + val, flashCards.length) );
   }
   const handleSubmit = (type, val) =>{
     const edit = Object.assign({}, flashCards[curCardIdx]);
@@ -53,6 +61,7 @@ function App() {
               <Button className='m-2' onClick={() => setIsEditing(!isEditing)}>{isEditing? 'Cancel' : 'Edit'}</Button>
               <Button className='m-2' onClick={() => handleDelete(curCardIdx)}>Delete</Button>
               <Button className='m-2' onClick={()=> setIsFlipped(!isFlipped)}>Flip</Button>
+              <Button className='m-2' onClick={handlePreviousCard} disabled={isFlipped === true}>Previous</Button>
               <Button className='m-2' onClick={handleNextCard} disabled={isFlipped === true}>Next</Button>
             </div>
           </>
