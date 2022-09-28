@@ -1,4 +1,5 @@
-import {Button, Container, Dropdown} from 'react-bootstrap';
+import {Button, Container} from 'react-bootstrap';
+import { MdLibraryAdd } from "react-icons/md";
 import {useState} from 'react';
 import FlipCard from './components/FlashCard/FlipCard';
 import ButtonMenu from './components/ButtonMenu/ButtonMenu';
@@ -47,7 +48,9 @@ function App() {
   return (
     <Container style={ {height: '100vh'} }>
       <div style={{height: '80%'}} className='d-flex flex-column align-items-center justify-content-center'>
-        <Button className='my-1' onClick={handleAdd}>Add card</Button>
+        <Button className='my-1' onClick={handleAdd}>
+          <MdLibraryAdd />(Add card)
+        </Button>
         {
           flashCards.length > 0 &&
           <>

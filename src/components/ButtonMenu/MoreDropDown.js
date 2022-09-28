@@ -3,7 +3,7 @@ import {Dropdown} from 'react-bootstrap';
 export default function MoreDropDown({setIsEditing, isEditing, handleDelete, curCardIdx}){
     return (
         <Dropdown>
-            <Dropdown.Toggle variant="light">
+            <Dropdown.Toggle variant="light dark-outline">
                 More
             </Dropdown.Toggle>
             <Dropdown.Menu>
