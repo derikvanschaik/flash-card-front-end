@@ -1,8 +1,8 @@
-import {Button, Container} from 'react-bootstrap';
+import {Button, Container, Dropdown} from 'react-bootstrap';
 import {useState} from 'react';
 import FlipCard from './components/FlashCard/FlipCard';
+import ButtonMenu from './components/ButtonMenu/ButtonMenu';
 import {mod} from './utils/utils';
-
 import './App.css';
 
 function App() {
@@ -41,6 +41,9 @@ function App() {
     setFlashCards([...flashCards.slice(0, curCardIdx), edit, ...flashCards.slice(curCardIdx + 1, flashCards.length)]);
     setIsEditing(false);
   }
+  const handleCancelEdit = () =>{
+    setIsEditing(false);
+  }
   return (
     <Container style={ {height: '100vh'} }>
       <div style={{height: '80%'}} className='d-flex flex-column align-items-center justify-content-center'>
@@ -56,13 +59,18 @@ function App() {
               isEditing={isEditing} 
               question={flashCards[curCardIdx].question} 
               answer={flashCards[curCardIdx].answer} 
-              handleSubmit={handleSubmit} />
+              handleSubmit={handleSubmit} 
+              handleCancel={handleCancelEdit}/>
             <div className='flex-row align-items-center justify-content-around'>
-              <Button className='m-2' onClick={() => setIsEditing(!isEditing)}>{isEditing? 'Cancel' : 'Edit'}</Button>
-              <Button className='m-2' onClick={() => handleDelete(curCardIdx)}>Delete</Button>
-              <Button className='m-2' onClick={()=> setIsFlipped(!isFlipped)}>Flip</Button>
-              <Button className='m-2' onClick={handlePreviousCard} disabled={isFlipped === true}>Previous</Button>
-              <Button className='m-2' onClick={handleNextCard} disabled={isFlipped === true}>Next</Button>
+              <ButtonMenu 
+                handlePreviousCard={handlePreviousCard}
+                isFlipped={isFlipped}
+                setIsFlipped={setIsFlipped}
+                handleNextCard={handleNextCard}
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
+                handleDelete={handleDelete}
+                curCardIdx={curCardIdx} />
             </div>
           </>
         }
