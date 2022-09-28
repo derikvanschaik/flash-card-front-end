@@ -9,9 +9,9 @@ function App() {
   const [curCardIdx, setCurCardIdx] = useState(0);
 
   const cards = [
-    {question: 'Capital of Canada', answer: 'ottowa'},
-    {question: 'Capital of Jamaica', answer: 'Bugladesh'},
-    {question: 'Capital of Sierra Leone', answer: 'WakaJaka'}
+    {question: 'Question 1', answer: 'Answer1'},
+    {question: 'Question 2', answer: "Answer2"},
+    {question: 'Question 3', answer: 'Answer3'}
   ]
   const [flashCards, setFlashCards] = useState(cards);
 
