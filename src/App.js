@@ -1,91 +1,69 @@
-import {Button, Container} from 'react-bootstrap';
-import { MdLibraryAdd } from "react-icons/md";
+import FlashCardApp from "./FlashCardApp"
 import {useState} from 'react';
-import FlipCard from './components/FlashCard/FlipCard';
-import ButtonMenu from './components/ButtonMenu/ButtonMenu';
-import {mod} from './utils/utils';
-import './App.css';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
-function App() {
-  const [isFlipped, setIsFlipped] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [curCardIdx, setCurCardIdx] = useState(0);
+export default function App(){
 
-  const cards = [
-    {question: 'Question 1', answer: 'Answer1'},
-    {question: 'Question 2', answer: "Answer2"},
-    {question: 'Question 3', answer: 'Answer3'}
-  ]
-  const [flashCards, setFlashCards] = useState(cards);
-  const handleAdd = () =>{
-    setCurCardIdx(flashCards.length);
-    setFlashCards([...flashCards, {answer: 'Click Edit to change answer.', question: 'click edit to change question.'}])
-  }
-  const handleDelete = (idx) =>{
-    if(window.confirm("Are you sure you want to delete this card? This action is not reversible.") === true){
-      const newFlashCards = flashCards.filter((_, i) => i !== idx);
-      setFlashCards(newFlashCards);
-      setCurCardIdx( newFlashCards.length === 0? -1 :(curCardIdx) % newFlashCards.length);
+    const initialDecks = [
+        {
+            title: 'Deck 1',
+            cards: [
+                {question: 'Question 1', answer: 'Answer1'},
+                {question: 'Question 2', answer: "Answer2"},
+                {question: 'Question 3', answer: 'Answer3'}                
+            ]
+        },
+        {
+            title: 'Deck 2',
+            cards: [
+                {question: 'Q1', answer: 'A1'},
+                {question: 'Q2', answer: "A2"},             
+            ]
+        },
+
+    ]
+    const [decks, setDecks] = useState(initialDecks);
+    const [row, setRow] = useState(0);
+    const [cards, setCards] = useState(decks[row]['cards'])
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleChange = (newCards) =>{
+        decks[row]['cards'] = newCards;
+        setDecks(decks);
     }
-  }
-  const handleNextCard = () =>{
-    handleNavigateCard(1);
-  }
-  const handlePreviousCard = () =>{
-    handleNavigateCard(-1);
-  }
-  const handleNavigateCard = (val) =>{
-    setIsEditing(false);
-    setCurCardIdx( mod(curCardIdx + val, flashCards.length) );
-  }
-  const handleSubmit = (type, val) =>{
-    const edit = Object.assign({}, flashCards[curCardIdx]);
-    edit[type] = val;
-    setFlashCards([...flashCards.slice(0, curCardIdx), edit, ...flashCards.slice(curCardIdx + 1, flashCards.length)]);
-    setIsEditing(false);
-  }
-  const handleCancelEdit = () =>{
-    setIsEditing(false);
-  }
-  return (
-    <Container style={ {height: '100vh'} }>
-      <div style={{height: '80%'}} className='d-flex flex-column align-items-center justify-content-center'>
-        <Button className='my-1' onClick={handleAdd}>
-          <MdLibraryAdd />(Add card)
-        </Button>
-        {
-          flashCards.length > 0 &&
-          <>
-            <div className='d-flex flex-row align-items-center justify-content-between'>
-              <p className='h4'>({ (curCardIdx + 1) }/{flashCards.length})</p>
-            </div>
-            <FlipCard 
-              isFlipped={isFlipped} 
-              isEditing={isEditing} 
-              question={flashCards[curCardIdx].question} 
-              answer={flashCards[curCardIdx].answer} 
-              handleSubmit={handleSubmit} 
-              handleCancel={handleCancelEdit}/>
-            <div className='flex-row align-items-center justify-content-around'>
-              <ButtonMenu 
-                handlePreviousCard={handlePreviousCard}
-                isFlipped={isFlipped}
-                setIsFlipped={setIsFlipped}
-                handleNextCard={handleNextCard}
-                isEditing={isEditing}
-                setIsEditing={setIsEditing}
-                handleDelete={handleDelete}
-                curCardIdx={curCardIdx} />
-            </div>
-          </>
-        }
-        {
-          flashCards.length === 0 &&
-          <p className='alert alert-danger'>No flash cards. Please add one.</p>
-        }
-      </div>
-    </Container>
-  );
-}
+    const handleChangeDeck = (i) =>{
+        setRow(i);
+        setCards(decks[i]['cards']);
+    }
 
-export default App;
+    return (
+        <>
+            {/* Side bar component:  */}
+            <Offcanvas show={isOpen} onHide={() => setIsOpen(false)} >
+                <Offcanvas.Header closeButton>
+                <Offcanvas.Title>Decks</Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    <ul className='list-group'>
+                        {decks.map((deck, i) =>{
+                            return (
+                                <li 
+                                    className={`list-group-item ${i === row? 'active' : ''}`}
+                                    onClick={() => handleChangeDeck(i)} >
+                                    {deck.title}
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </Offcanvas.Body>
+            </Offcanvas>
+
+            <FlashCardApp 
+                cards={cards} 
+                title={decks[row]['title']} 
+                handleChange={handleChange}
+                toggleSideBar={() => setIsOpen(!isOpen) }
+            />
+        </>
+    )
+}
