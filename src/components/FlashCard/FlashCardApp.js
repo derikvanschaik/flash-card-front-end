@@ -35,7 +35,7 @@ function FlashCardApp({cards, handleChange, title, toggleSideBar}) {
     if(window.confirm("Are you sure you want to delete this card? This action is not reversible.") === true){
       const newFlashCards = flashCards.filter((_, i) => i !== idx);
       setFlashCards(newFlashCards);
-      setCurCardIdx( newFlashCards.length === 0? -1 :(curCardIdx) % newFlashCards.length);
+      setCurCardIdx( newFlashCards.length === 0? 0 :(curCardIdx) % newFlashCards.length); // prevent 0/0 error
     }
   }
   const handleNextCard = () =>{

@@ -31,6 +31,7 @@ export default function App(){
         setDecks(decks);
     }
     const handleChangeDeck = (i) =>{
+        console.log(decks);
         setRow(i);
     }
 
