@@ -1,4 +1,4 @@
-import FlashCardApp from "./FlashCardApp"
+import FlashCardApp from "./components/FlashCard/FlashCardApp"
 import {useState} from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 

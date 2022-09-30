@@ -1,10 +1,10 @@
 import {Button, Container} from 'react-bootstrap';
 import { MdLibraryAdd } from "react-icons/md";
 import { useState, useEffect } from 'react';
-import FlipCard from './components/FlashCard/FlipCard';
-import ButtonMenu from './components/ButtonMenu/ButtonMenu';
-import {mod} from './utils/utils';
-import './App.css';
+import FlipCard from './FlipCard';
+import ButtonMenu from '../ButtonMenu/ButtonMenu';
+import {mod} from '../../utils/utils';
+import '../../App.css';
 
 function FlashCardApp({cards, handleChange, title, toggleSideBar}) {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -23,7 +23,7 @@ function FlashCardApp({cards, handleChange, title, toggleSideBar}) {
   // monitor changes in cards prop 
   useEffect( () =>{
     setFlashCards(cards);
-    setCurCardIdx(0);
+    setCurCardIdx(curCardIdx < cards.length? curCardIdx : 0);
   }, [cards]);
 
 
