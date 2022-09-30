@@ -24,7 +24,6 @@ export default function App(){
     ]
     const [decks, setDecks] = useState(initialDecks);
     const [row, setRow] = useState(0);
-    const [cards, setCards] = useState(decks[row]['cards'])
     const [isOpen, setIsOpen] = useState(false);
 
     const handleChange = (newCards) =>{
@@ -33,7 +32,6 @@ export default function App(){
     }
     const handleChangeDeck = (i) =>{
         setRow(i);
-        setCards(decks[i]['cards']);
     }
 
     return (
@@ -59,7 +57,7 @@ export default function App(){
             </Offcanvas>
 
             <FlashCardApp 
-                cards={cards} 
+                cards={decks[row]['cards']} 
                 title={decks[row]['title']} 
                 handleChange={handleChange}
                 toggleSideBar={() => setIsOpen(!isOpen) }
