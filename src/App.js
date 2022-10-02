@@ -1,4 +1,5 @@
 import FlashCardApp from "./components/FlashCard/FlashCardApp"
+import AddNewDeck from "./components/DeckManager/AddNewDeck";
 import {useState, useRef} from 'react';
 import {Offcanvas, Button, Stack, Form} from 'react-bootstrap';
 
@@ -55,19 +56,12 @@ export default function App(){
                 <Offcanvas.Body>
                     {
                         isAddingNew &&
-                            <Form className='my-2'>
-                                <Stack gap={2}>
-                                    <Form.Control 
-                                        type="text" 
-                                        placeholder="Enter Title" 
-                                        onInput={(e) => setNewDeckTitle(e.target.value)}
-                                        ref={input}
-                                        value={newDeckTitle} />
-
-                                    <Button variant="light" onClick={handleAdd}>Submit</Button>
-                                    <Button variant="dark"onClick={() => setIsAddingNew(false)}>Cancel</Button>
-                                </Stack>
-                            </Form>
+                        <AddNewDeck
+                            handleNewTitleInput={(e) => setNewDeckTitle(e.target.value)}
+                            handleAdd={handleAdd}
+                            handleCancel={() => setIsAddingNew(false)}
+                            newDeckTitle={newDeckTitle}
+                            inputRef={input} />
                     }
                     {
                         !isAddingNew &&
