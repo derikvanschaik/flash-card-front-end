@@ -1,6 +1,6 @@
 import FlashCardApp from "./components/FlashCard/FlashCardApp"
-import {useState} from 'react';
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import {useState, useRef} from 'react';
+import {Offcanvas, Button, Stack, Form} from 'react-bootstrap';
 
 export default function App(){
 
@@ -25,6 +25,9 @@ export default function App(){
     const [decks, setDecks] = useState(initialDecks);
     const [row, setRow] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
+    const [isAddingNew, setIsAddingNew] = useState(false);
+    const [newDeckTitle, setNewDeckTitle] = useState('');
+    const input = useRef();
 
     const handleChange = (newCards) =>{
         decks[row]['cards'] = newCards;
@@ -32,6 +35,14 @@ export default function App(){
     }
     const handleChangeDeck = (i) =>{
         setRow(i);
+    }
+    const handleAdd = () =>{
+        if(decks.map(obj => obj.title).includes(newDeckTitle)) return;
+        if(newDeckTitle === '') return;
+        setIsAddingNew(false);
+        setDecks([...decks, {title: newDeckTitle, cards: []}])
+        setNewDeckTitle('');
+        input.current.value = '';
     }
 
     return (
@@ -42,17 +53,39 @@ export default function App(){
                 <Offcanvas.Title>Decks</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    <ul className='list-group'>
-                        {decks.map((deck, i) =>{
-                            return (
-                                <li 
-                                    className={`list-group-item ${i === row? 'active' : ''}`}
-                                    onClick={() => handleChangeDeck(i)} >
-                                    {deck.title}
-                                </li>
-                            )
-                        })}
-                    </ul>
+                    {
+                        isAddingNew &&
+                            <Form className='my-2'>
+                                <Stack gap={2}>
+                                    <Form.Control 
+                                        type="text" 
+                                        placeholder="Enter Title" 
+                                        onInput={(e) => setNewDeckTitle(e.target.value)}
+                                        ref={input}
+                                        value={newDeckTitle} />
+
+                                    <Button variant="light" onClick={handleAdd}>Submit</Button>
+                                    <Button variant="dark"onClick={() => setIsAddingNew(false)}>Cancel</Button>
+                                </Stack>
+                            </Form>
+                    }
+                    {
+                        !isAddingNew &&
+                        <>
+                            <Button className='my-2' variant='light' onClick={() => setIsAddingNew(true)}>Add New</Button>
+                            <ul className='list-group'>
+                                {decks.map((deck, i) =>{
+                                    return (
+                                        <li 
+                                            className={`list-group-item ${i === row? 'active' : ''}`}
+                                            onClick={() => handleChangeDeck(i)} >
+                                            {deck.title}
+                                        </li>
+                                    )
+                                })}
+                            </ul>
+                        </>
+                    }
                 </Offcanvas.Body>
             </Offcanvas>
 
