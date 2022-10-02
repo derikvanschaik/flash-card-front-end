@@ -1,7 +1,9 @@
 import FlashCardApp from "./components/FlashCard/FlashCardApp"
 import AddNewDeck from "./components/DeckManager/AddNewDeck";
+import DeckItem from "./components/DeckManager/DeckItem";
 import {useState, useRef} from 'react';
-import {Offcanvas, Button, Stack, Form} from 'react-bootstrap';
+import {Offcanvas, Button, Alert, Container} from 'react-bootstrap';
+import { MdLibraryAdd } from "react-icons/md";
 
 export default function App(){
 
@@ -12,7 +14,7 @@ export default function App(){
                 {question: 'Question 1', answer: 'Answer1'},
                 {question: 'Question 2', answer: "Answer2"},
                 {question: 'Question 3', answer: 'Answer3'}                
-            ]
+            ],
         },
         {
             title: 'Deck 2',
@@ -45,6 +47,25 @@ export default function App(){
         setNewDeckTitle('');
         input.current.value = '';
     }
+    const handleDelete = (event, i) =>{
+        event.stopPropagation();
+        const newDecks = [...decks.filter((_, idx) => idx!==i)];
+        setDecks( newDecks );
+        //  want to bring the alert to user's attention
+        if(newDecks.length === 0){
+            setIsOpen(false);
+        }
+        if(row === i){
+            setRow(newDecks.length === 0? 0 : newDecks.length -1 );
+        }
+    }
+    const handleChangeTitle = (i) =>{
+        const changeTitle = (newTitle) =>{
+            decks[i].title = newTitle;
+            setDecks([...decks]);
+        }
+        return changeTitle;
+    }
 
     return (
         <>
@@ -66,15 +87,16 @@ export default function App(){
                     {
                         !isAddingNew &&
                         <>
-                            <Button className='my-2' variant='light' onClick={() => setIsAddingNew(true)}>Add New</Button>
+                            <Button className='my-2' variant='light' onClick={() => setIsAddingNew(true)}><MdLibraryAdd /> Add Deck</Button>
                             <ul className='list-group'>
                                 {decks.map((deck, i) =>{
                                     return (
-                                        <li 
-                                            className={`list-group-item ${i === row? 'active' : ''}`}
-                                            onClick={() => handleChangeDeck(i)} >
-                                            {deck.title}
-                                        </li>
+                                        <DeckItem 
+                                            title={deck.title} 
+                                            isActive={row === i} 
+                                            handleSelect={() => handleChangeDeck(i)}
+                                            handleDelete={(e) => handleDelete(e, i)} 
+                                            handleChangeTitle = {handleChangeTitle(i)}/>
                                     )
                                 })}
                             </ul>
@@ -82,13 +104,29 @@ export default function App(){
                     }
                 </Offcanvas.Body>
             </Offcanvas>
-
-            <FlashCardApp 
-                cards={decks[row]['cards']} 
-                title={decks[row]['title']} 
-                handleChange={handleChange}
-                toggleSideBar={() => setIsOpen(!isOpen) }
-            />
+            {
+                decks[row] && 
+                <FlashCardApp 
+                    cards={decks[row]['cards']} 
+                    title={decks[row]['title']} 
+                    handleChange={handleChange}
+                    toggleSideBar={() => setIsOpen(!isOpen) }
+                />
+            }
+            {
+                decks.length === 0 &&
+                <Container>
+                    <div className='my-4'>
+                        <Alert variant='danger'>
+                            <Alert.Heading>No Decks.</Alert.Heading>
+                            <p>
+                                No Decks are present. Please Add a deck.
+                            </p>
+                            <Button variant='light light-outline' onClick={() => setIsOpen(true)}>Add Deck</Button>
+                        </Alert>
+                    </div>
+                </Container>
+            }
         </>
     )
 }
