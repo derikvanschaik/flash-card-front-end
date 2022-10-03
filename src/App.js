@@ -3,7 +3,7 @@ import AddNewDeck from "./components/DeckManager/AddNewDeck";
 import DeckItem from "./components/DeckManager/DeckItem";
 import {useState, useRef} from 'react';
 import {Offcanvas, Button, Alert, Container} from 'react-bootstrap';
-import { MdLibraryAdd } from "react-icons/md";
+import { AddIcon } from "./components/icons/Icons";
 
 export default function App(){
 
@@ -87,7 +87,10 @@ export default function App(){
                     {
                         !isAddingNew &&
                         <>
-                            <Button className='my-2' variant='light' onClick={() => setIsAddingNew(true)}><MdLibraryAdd /> Add Deck</Button>
+                            <Button className='my-2' variant='light' onClick={() => setIsAddingNew(true)}>
+                                <AddIcon /> 
+                                Add Deck
+                            </Button>
                             <ul className='list-group'>
                                 {decks.map((deck, i) =>{
                                     return (

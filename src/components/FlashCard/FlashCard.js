@@ -1,7 +1,6 @@
 import {Card} from 'react-bootstrap';
 import {useState, useEffect} from 'react';
 import SubmitCancel from '../reused/SubmitCancel';
-import { FaEdit, FaTrash } from "react-icons/fa";
 
 export default function FlashCard({type, text, isEditing, handleSubmit, handleCancel}){
 

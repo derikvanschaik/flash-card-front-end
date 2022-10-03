@@ -1,6 +1,5 @@
 import {Button, Container} from 'react-bootstrap';
-import { MdLibraryAdd } from "react-icons/md";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { AddIcon, EditIcon, DeleteIcon } from '../icons/Icons';
 import { useState, useEffect } from 'react';
 import FlipCard from './FlipCard';
 import ButtonMenu from '../ButtonMenu/ButtonMenu';
@@ -64,20 +63,20 @@ function FlashCardApp({cards, handleChange, title, toggleSideBar}) {
 
       <div style={{height: '80%'}} className='d-flex flex-column align-items-center justify-content-center'>
         <Button className='my-1' onClick={handleAdd}>
-          <MdLibraryAdd />(Add card)
+          <AddIcon/>(Add card)
         </Button>
         {
           flashCards.length > 0 &&
           <>
             <div className='d-flex flex-row align-items-center justify-content-between'>
               <Button variant="light" className='mx-2' onClick={() => setIsEditing(true)} disabled={isEditing}>
-                <FaEdit/>
+                <EditIcon/>
               </Button>
 
               <p className='h4'>({ (curCardIdx + 1) }/{flashCards.length})</p>
 
               <Button variant="light" className='mx-2' onClick={() => handleDelete(curCardIdx)}>
-                <FaTrash />
+                <DeleteIcon />
               </Button>
 
             </div>

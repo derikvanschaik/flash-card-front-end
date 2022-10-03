@@ -1,5 +1,6 @@
 import {Button} from 'react-bootstrap';
-import {FcNext, FcPrevious, FcRedo, FcCancel} from 'react-icons/fc';
+import {NextIcon, PreviousIcon, FlipIcon, CancelIcon} from '../icons/Icons';
+
 
 export default function ButtonMenu(props){
     const {
@@ -12,21 +13,21 @@ export default function ButtonMenu(props){
         <>
         <Button className='m-2' onClick={handlePreviousCard} disabled={isFlipped === true} variant='light'>
             {
-                !isFlipped && <FcPrevious />
+                !isFlipped && <PreviousIcon/>
             }
             {
-                isFlipped && <FcCancel />
+                isFlipped && <CancelIcon />
             }
         </Button>
         <Button className='m-2' onClick={()=> setIsFlipped(!isFlipped)}>
-            <FcRedo /> (flip)
+            <FlipIcon /> (flip)
         </Button>
         <Button className='m-2' onClick={handleNextCard} disabled={isFlipped === true} variant='light'>
             {
-                !isFlipped && <FcNext />
+                !isFlipped && <NextIcon />
             }
             {
-                isFlipped && <FcCancel />
+                isFlipped && <CancelIcon />
             }
         </Button>
         </>

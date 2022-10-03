@@ -1,5 +1,5 @@
 import {useState} from  'react';
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { EditIcon, DeleteIcon } from '../icons/Icons';
 import {Form} from 'react-bootstrap';
 import SubmitCancel from '../reused/SubmitCancel';
 
@@ -21,8 +21,8 @@ export default function DeckItem({isActive, title, handleSelect, handleDelete, h
                     <>
                         {title}
                         <div>
-                            <span className='p-2' onClick={() => setIsEditing(true)}><FaEdit /></span>
-                            <span className='p-2' onClick={handleDelete}><FaTrash /></span>
+                            <span className='p-2' onClick={() => setIsEditing(true)}><EditIcon /></span>
+                            <span className='p-2' onClick={handleDelete}><DeleteIcon /></span>
                         </div>
                     </>
                 }
