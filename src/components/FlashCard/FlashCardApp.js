@@ -1,5 +1,6 @@
 import {Button, Container} from 'react-bootstrap';
 import { MdLibraryAdd } from "react-icons/md";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { useState, useEffect } from 'react';
 import FlipCard from './FlipCard';
 import ButtonMenu from '../ButtonMenu/ButtonMenu';
@@ -69,25 +70,32 @@ function FlashCardApp({cards, handleChange, title, toggleSideBar}) {
           flashCards.length > 0 &&
           <>
             <div className='d-flex flex-row align-items-center justify-content-between'>
+              <Button variant="light" className='mx-2' onClick={() => setIsEditing(true)} disabled={isEditing}>
+                <FaEdit/>
+              </Button>
+
               <p className='h4'>({ (curCardIdx + 1) }/{flashCards.length})</p>
+
+              <Button variant="light" className='mx-2' onClick={() => handleDelete(curCardIdx)}>
+                <FaTrash />
+              </Button>
+
             </div>
+            
             <FlipCard 
               isFlipped={isFlipped} 
               isEditing={isEditing} 
               question={flashCards[curCardIdx].question} 
               answer={flashCards[curCardIdx].answer} 
               handleSubmit={handleSubmit} 
-              handleCancel={handleCancelEdit}/>
+              handleCancel={handleCancelEdit} />
+
             <div className='flex-row align-items-center justify-content-around'>
               <ButtonMenu 
                 handlePreviousCard={handlePreviousCard}
                 isFlipped={isFlipped}
                 setIsFlipped={setIsFlipped}
-                handleNextCard={handleNextCard}
-                isEditing={isEditing}
-                setIsEditing={setIsEditing}
-                handleDelete={handleDelete}
-                curCardIdx={curCardIdx} />
+                handleNextCard={handleNextCard}/>
             </div>
           </>
         }

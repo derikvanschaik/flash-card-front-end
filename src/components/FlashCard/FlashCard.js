@@ -1,9 +1,9 @@
 import {Card} from 'react-bootstrap';
 import {useState, useEffect} from 'react';
 import SubmitCancel from '../reused/SubmitCancel';
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 export default function FlashCard({type, text, isEditing, handleSubmit, handleCancel}){
-    // console.log(type);
 
     const [val, setVal] = useState('');
     // without this, a caching effect will occur on the text displayed in the text 

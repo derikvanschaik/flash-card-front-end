@@ -1,18 +1,12 @@
 import {Button} from 'react-bootstrap';
 import {FcNext, FcPrevious, FcRedo, FcCancel} from 'react-icons/fc';
 
-import MoreDropDown from './MoreDropDown';
-
 export default function ButtonMenu(props){
     const {
         handlePreviousCard,
         isFlipped, 
         setIsFlipped, 
-        handleNextCard, 
-        isEditing, 
-        setIsEditing, 
-        handleDelete, 
-        curCardIdx
+        handleNextCard,
     } = props;
     return (
         <>
@@ -35,11 +29,6 @@ export default function ButtonMenu(props){
                 isFlipped && <FcCancel />
             }
         </Button>
-        <MoreDropDown 
-          isEditing={isEditing} 
-          setIsEditing={setIsEditing} 
-          handleDelete={handleDelete} 
-          curCardIdx={curCardIdx} />
         </>
     )
 }
