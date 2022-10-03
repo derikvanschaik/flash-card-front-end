@@ -1,5 +1,6 @@
-import {Card, Button, Stack } from 'react-bootstrap';
+import {Card} from 'react-bootstrap';
 import {useState, useEffect} from 'react';
+import SubmitCancel from '../reused/SubmitCancel';
 
 export default function FlashCard({type, text, isEditing, handleSubmit, handleCancel}){
     // console.log(type);
@@ -25,13 +26,13 @@ export default function FlashCard({type, text, isEditing, handleSubmit, handleCa
             }
             {
                 isEditing &&
-                <>
-                <Stack gap={3}>
-                    <textarea rows="8" cols="10" value={val} onInput={(e) =>{setVal(e.target.value)}} />
-                    <Button variant='light' onClick={() => handleSubmit(type, val)}>Submit Edit</Button>
-                    <Button variant='dark' onClick={handleCancel}>Cancel</Button>
-                </Stack>
-                </>
+                <SubmitCancel 
+                    HTML={
+                        <textarea rows="8" cols="10" value={val} onInput={(e) =>{setVal(e.target.value)}} />
+                    }
+                    handleSubmit={() => handleSubmit(type, val)}
+                    handleCancel={handleCancel}
+                    />
             }
             </Card.Body>
         </Card>

@@ -1,6 +1,7 @@
-import {useState, useRef} from  'react';
+import {useState} from  'react';
 import { FaEdit, FaTrash } from "react-icons/fa";
-import {Button, Stack, Form} from 'react-bootstrap';
+import {Form} from 'react-bootstrap';
+import SubmitCancel from '../reused/SubmitCancel';
 
 export default function DeckItem({isActive, title, handleSelect, handleDelete, handleChangeTitle}){
     const [isEditing, setIsEditing] = useState(false);
@@ -27,16 +28,17 @@ export default function DeckItem({isActive, title, handleSelect, handleDelete, h
                 }
                 {
                     isEditing &&
-                    <Stack gap={2}>
-                        <Form.Control 
-                            type="text" 
-                            placeholder="Enter Changed Title" 
-                            onInput={(e) => setNewTitle(e.target.value)}
-                            value={newTitle} />
-            
-                        <Button variant="light" onClick={handleEdit}>Submit</Button>
-                        <Button variant="dark"onClick={() => setIsEditing(false)}>Cancel</Button>
-                    </Stack>
+                    <SubmitCancel 
+                        HTML={
+                            <Form.Control 
+                                type="text" 
+                                placeholder="Enter Changed Title" 
+                                onInput={(e) => setNewTitle(e.target.value)}
+                                value={newTitle} />
+                        }
+                        handleSubmit={handleEdit}
+                        handleCancel={() => setIsEditing(false)}
+                    />
                 }
         </li>
     )
