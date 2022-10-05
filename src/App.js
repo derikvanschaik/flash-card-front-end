@@ -1,9 +1,10 @@
-import FlashCardApp from "./components/FlashCard/FlashCardApp"
+import SideBar from './components/SideBar';
+import FlashCardApp from "./components/FlashCard/FlashCardApp";
 import AddNewDeck from "./components/DeckManager/AddNewDeck";
 import DeckItem from "./components/DeckManager/DeckItem";
-import NoDecks from "./components/StandAlone/NoDecks";
+import NoDecks from "./components/DeckManager/NoDecks";
 import {useState, useRef} from 'react';
-import {Offcanvas, Button } from 'react-bootstrap';
+import {Button } from 'react-bootstrap';
 import { AddIcon } from "./components/icons/Icons";
 
 export default function App(){
@@ -70,44 +71,37 @@ export default function App(){
 
     return (
         <>
-            {/* Side bar component:  */}
-            <Offcanvas show={isOpen} onHide={() => setIsOpen(false)} >
-                <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Decks</Offcanvas.Title>
-                </Offcanvas.Header>
-                <Offcanvas.Body>
-                    {
-                        isAddingNew &&
+            <SideBar 
+                isOpen={isOpen} 
+                hideSideBar={() => setIsOpen(false)} 
+                content={
+                    (isAddingNew &&
                         <AddNewDeck
                             handleNewTitleInput={(e) => setNewDeckTitle(e.target.value)}
                             handleAdd={handleAdd}
                             handleCancel={() => setIsAddingNew(false)}
                             newDeckTitle={newDeckTitle}
-                            inputRef={input} />
-                    }
-                    {
-                        !isAddingNew &&
+                            inputRef={input} />) 
+                    || 
                         <>
-                            <Button className='my-2' variant='light' onClick={() => setIsAddingNew(true)}>
-                                <AddIcon /> 
-                                Add Deck
-                            </Button>
-                            <ul className='list-group'>
-                                {decks.map((deck, i) =>{
-                                    return (
-                                        <DeckItem 
-                                            title={deck.title} 
-                                            isActive={row === i} 
-                                            handleSelect={() => handleChangeDeck(i)}
-                                            handleDelete={(e) => handleDelete(e, i)} 
-                                            handleChangeTitle = {handleChangeTitle(i)}/>
-                                    )
-                                })}
-                            </ul>
+                        <Button className='my-2' variant='light' onClick={() => setIsAddingNew(true)}>
+                            <AddIcon /> 
+                            Add Deck
+                        </Button>
+                        <ul className='list-group'>
+                            {decks.map((deck, i) =>{
+                                return (
+                                    <DeckItem 
+                                        title={deck.title} 
+                                        isActive={row === i} 
+                                        handleSelect={() => handleChangeDeck(i)}
+                                        handleDelete={(e) => handleDelete(e, i)} 
+                                        handleChangeTitle = {handleChangeTitle(i)}/>
+                                )
+                            })}
+                        </ul>
                         </>
-                    }
-                </Offcanvas.Body>
-            </Offcanvas>
+                }/>
             {
                 decks[row] && 
                 <FlashCardApp 
