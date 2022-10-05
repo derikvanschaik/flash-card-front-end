@@ -1,8 +1,9 @@
 import FlashCardApp from "./components/FlashCard/FlashCardApp"
 import AddNewDeck from "./components/DeckManager/AddNewDeck";
 import DeckItem from "./components/DeckManager/DeckItem";
+import NoDecks from "./components/StandAlone/NoDecks";
 import {useState, useRef} from 'react';
-import {Offcanvas, Button, Alert, Container} from 'react-bootstrap';
+import {Offcanvas, Button } from 'react-bootstrap';
 import { AddIcon } from "./components/icons/Icons";
 
 export default function App(){
@@ -118,17 +119,7 @@ export default function App(){
             }
             {
                 decks.length === 0 &&
-                <Container>
-                    <div className='my-4'>
-                        <Alert variant='danger'>
-                            <Alert.Heading>No Decks.</Alert.Heading>
-                            <p>
-                                No Decks are present. Please Add a deck.
-                            </p>
-                            <Button variant='light light-outline' onClick={() => setIsOpen(true)}>Add Deck</Button>
-                        </Alert>
-                    </div>
-                </Container>
+                <NoDecks openSideBar={()=> setIsOpen(true)}/>
             }
         </>
     )
