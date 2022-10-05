@@ -84,22 +84,22 @@ export default function App(){
                             inputRef={input} />) 
                     || 
                         <>
-                        <Button className='my-2' variant='light' onClick={() => setIsAddingNew(true)}>
-                            <AddIcon /> 
-                            Add Deck
-                        </Button>
-                        <ul className='list-group'>
-                            {decks.map((deck, i) =>{
-                                return (
-                                    <DeckItem 
-                                        title={deck.title} 
-                                        isActive={row === i} 
-                                        handleSelect={() => handleChangeDeck(i)}
-                                        handleDelete={(e) => handleDelete(e, i)} 
-                                        handleChangeTitle = {handleChangeTitle(i)}/>
-                                )
-                            })}
-                        </ul>
+                            <Button className='my-2' variant='light' onClick={() => setIsAddingNew(true)}>
+                                <AddIcon /> 
+                                Add Deck
+                            </Button>
+                            <ul className='list-group'>
+                                {decks.map((deck, i) =>{
+                                    return (
+                                        <DeckItem 
+                                            title={deck.title} 
+                                            isActive={row === i} 
+                                            handleSelect={() => handleChangeDeck(i)}
+                                            handleDelete={(e) => handleDelete(e, i)} 
+                                            handleChangeTitle = {handleChangeTitle(i)}/>
+                                    )
+                                })}
+                            </ul>
                         </>
                 }/>
             {
